@@ -1,0 +1,16 @@
+{
+    "name": "omid/LaravelTableToMigrations",
+    "description": "convert tables in database  to the  laravel file  migration and model and controller .",
+    "autoload": {
+        "psr-4": {
+            "LaravelTableToMigrations\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Omid Ahmadi",
+            "email": "omid1989ahmadi@gmail.com"
+        }
+    ],
+    "require": {}
+}
