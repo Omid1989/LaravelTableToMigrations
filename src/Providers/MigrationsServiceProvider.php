@@ -14,7 +14,7 @@ class MigrationsServiceProvider implements ServiceProviderContract
     {
         $kernel->bind('print',function (string $outputmessage){
 
-            return MigrationsService::printLaravel($this,$outputmessage);
+            return MigrationsService::printLaravel($outputmessage);
         });
     }
 }

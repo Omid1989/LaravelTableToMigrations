@@ -8,7 +8,7 @@ class MigrationsService
 {
     public static function printLaravel($message)
     {
-        var_dump($message);
+        print_r($message);
 
     }
 }
