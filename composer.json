@@ -12,5 +12,8 @@
             "email": "omid1989ahmadi@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "PHP":">=7.1",
+        "tightenco/collect": ">5.0"
+    }
 }

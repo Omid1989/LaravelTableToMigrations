@@ -51,7 +51,8 @@ class LaravelTableToMigrationsCommand extends Command
 //        */
 //
 //        $this->info('Proccess Successfully');
-        print_r('just for test');
+//        print_r('just for test');
+        LaravelTableToMigrations::print('from class migration');
 
     }
 }
