@@ -4,6 +4,7 @@
 namespace LaravelTableToMigrations;
 
 use LaravelTableToMigrations\Contracts\ServiceProviderContract;
+use LaravelTableToMigrations\Exceptions\ServiceNotFoundException;
 use LaravelTableToMigrations\Providers\MigrationsServiceProvider;
 use Tightenco\Collect\Support\Collection;
 use Closure;
@@ -42,8 +43,8 @@ class Kernel
     public function getService(string $name)
     {
         if (!$this->binds->offsetExists($name)) {
-            // throw new ServiceNotFoundException("Service: {$name} not found!");
-            dd('error  ddddd(^_^)');
+             throw new ServiceNotFoundException("Service: {$name} not found!");
+
         }
         return $this->binds[$name];
     }
