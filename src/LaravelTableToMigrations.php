@@ -4,29 +4,35 @@
 namespace LaravelTableToMigrations;
 
 
+use LaravelTableToMigrations\Helper\InfoTables;
+
 class LaravelTableToMigrations
 {
-   // protected $query;
+    protected $infoTables;
+    protected $dbname;
     protected $kernel;
     protected static $instance = null;
 
 
     public function __construct()
     {
-       //$this->query = new Query($this);
-        $this->kernel = (new Kernel($this))->bootstrap();
+        $this->infoTables = new InfoTables();
+        $this->kernel = (new Kernel())->bootstrap();
+
+        echo 'new class create LaravelTableToMigrations' . PHP_EOL;
 
     }
 
     public function __call($name, $arguments)
     {
-        //if (method_exists($this->query, $name)) {
-         //   $result = $this->query->$name(...$arguments);
-        //} else {
-        $result = $this->kernel->getService($name)->call($this, ...$arguments);
-        //}
+        if (method_exists($this->infoTables, $name)) {
+            $result = $this->infoTables->$name(...$arguments);
+        } else {
+            $result = $this->kernel->getService($name)->call($this, ...$arguments);
+        }
         return $result;
     }
+
 
     public static function __callStatic($name, $arguments)
     {
@@ -40,16 +46,9 @@ class LaravelTableToMigrations
     }
 
 
-    public static function getInstance()
-    {
-        self::$instance || self::$instance = new self();
-        return self::$instance;
-    }
-
-
     public function destruct()
     {
-        //unset($this->query);
+        unset($this->InfoTables);
         unset($this->kernel);
     }
 
@@ -60,4 +59,9 @@ class LaravelTableToMigrations
         return $this;
     }
 
+    public static function getInstance()
+    {
+        self::$instance || self::$instance = new self();
+        return self::$instance;
+    }
 }

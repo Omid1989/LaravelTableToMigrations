@@ -5,21 +5,25 @@ namespace LaravelTableToMigrations;
 
 use LaravelTableToMigrations\Contracts\ServiceProviderContract;
 use LaravelTableToMigrations\Exceptions\ServiceNotFoundException;
-use LaravelTableToMigrations\Providers\MigrationsServiceProvider;
+use LaravelTableToMigrations\Providers\MakeSchemaProvider;
+use LaravelTableToMigrations\Providers\WriteServiceProvider;
 use Tightenco\Collect\Support\Collection;
 use Closure;
 
 class Kernel
 {
     protected $providers = [
-        MigrationsServiceProvider::class
+        WriteServiceProvider::class,
+        MakeSchemaProvider::class
     ];
 
     protected $binds;
 
+
     public function __construct()
     {
         $this->binds = new Collection();
+
     }
 
     public function bootstrap()

@@ -13,7 +13,7 @@ class LaravelTableToMigrationsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:migrations {database} {--ignore=} {--m} {--c} {--r} ';
+    protected $signature = 'make:migrations {database} {--ignore=} {--m} {--c}  ';
 
     /**
      * The console command description.
@@ -40,19 +40,37 @@ class LaravelTableToMigrationsCommand extends Command
     public function handle()
     {
 
-//        $ignoreInput = str_replace(' ', '', $this->option('ignore'));
-//        $ignoreInput = explode(',', $ignoreInput);
-//
-//        /*
-//        $migrate = new SqlMigrations;
-//        $migrate->ignore($ignoreInput);
-//        $migrate->convert($this->argument('database'));
-//        $migrate->write();
-//        */
-//
-//        $this->info('Proccess Successfully');
-//        print_r('just for test');
-        LaravelTableToMigrations::print('from class migration');
+        $ignoreInput = str_replace(' ', '', $this->option('ignore'));
+        $ignoreInput = explode(',', $ignoreInput);
+        $database = $this->argument('database');
+
+        $options = [
+            'CreateModleFile' => $this->option('m') ? true : false,
+            'CreateControllerFile' => $this->option('c') ? true : false
+        ];
+
+        LaravelTableToMigrations::getInstance()->setDatabase($database);
+        LaravelTableToMigrations::getInstance()->setOptions($options);
+        $tables = LaravelTableToMigrations::getInstance()->getTables();
+        $progressBar = $this->output->createProgressBar(
+                  LaravelTableToMigrations::getInstance()->getTablesCount());
+
+
+        $progressBar->start();
+        foreach ($tables as $table) {
+
+            if (!in_array($table->table_name, $ignoreInput)) {
+
+                LaravelTableToMigrations::getInstance()->MakeSchema($table);
+                LaravelTableToMigrations::getInstance()->write($table);
+
+                $progressBar->advance();
+            }
+        }
+
+        $progressBar->finish();
+        $this->info('Proccess Successfully');
+
 
     }
 }
