@@ -6,6 +6,7 @@ namespace LaravelTableToMigrations\Helper;
 use DB;
 use Illuminate\Support\Str;
 
+
 class InfoTables
 {
     private static $database = "";

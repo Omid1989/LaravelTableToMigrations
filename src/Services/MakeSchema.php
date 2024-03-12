@@ -16,8 +16,22 @@ class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
         $down = "Schema::drop('{$opt[0]->table_name}');";
         $up = "Schema::create('{$opt[0]->table_name}', function(Blueprint $" . "table) {\n";
         $tableDescribes = $infoTables->getTableDescribes($opt[0]->table_name);
+        $PRIMARY = [];
+        $MUL = [];
+        $timestamps = [];
+        $OTHER = [];
+        array_map(function($value) use (&$PRIMARY, &$MUL,&$timestamps,&$OTHER) {
+            if ($value->INDEX_NAME == 'PRIMARY') {
+                $PRIMARY[] = $value;
+            } elseif($value->COLUMN_KEY == 'MUL') {
+                $MUL[] = $value;
+            }elseif($value->COLUMN_NAME == 'created_at' || $value->COLUMN_NAME == 'updated_at') {
+                $timestamps[] = $value;
+            }else{
+                $OTHER[]=$value;
+            }
+        }, $tableDescribes);
 
-        dd($tableDescribes);
 
 
 
