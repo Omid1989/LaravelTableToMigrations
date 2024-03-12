@@ -5,6 +5,7 @@ namespace LaravelTableToMigrations;
 
 use LaravelTableToMigrations\Contracts\ServiceProviderContract;
 use LaravelTableToMigrations\Exceptions\ServiceNotFoundException;
+use LaravelTableToMigrations\Providers\CompileSchemaProvider;
 use LaravelTableToMigrations\Providers\MakeSchemaProvider;
 use LaravelTableToMigrations\Providers\WriteServiceProvider;
 use Tightenco\Collect\Support\Collection;
@@ -14,7 +15,8 @@ class Kernel
 {
     protected $providers = [
         WriteServiceProvider::class,
-        MakeSchemaProvider::class
+        MakeSchemaProvider::class,
+        CompileSchemaProvider::class
     ];
 
     protected $binds;

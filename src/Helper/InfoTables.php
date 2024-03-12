@@ -13,9 +13,6 @@ class InfoTables
     public static $schema = array();
     private static $Options = array();
     private static $count = 0;
-    private static $up = "";
-    private static $down = "";
-    private static $obj;
 
     public function __construct()
     {
@@ -73,11 +70,6 @@ class InfoTables
                             where COLUMNS.TABLE_NAME = '" . $table . "'
                             and COLUMNS.TABLE_SCHEMA = '" . self::$database . "'    order by ORDINAL_POSITION ASC ;");
 
-    }
-
-    public function getSchema()
-    {
-        dd('tes');
     }
 
 }

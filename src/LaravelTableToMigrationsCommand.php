@@ -62,7 +62,8 @@ class LaravelTableToMigrationsCommand extends Command
             if (!in_array($table->table_name, $ignoreInput)) {
 
                 LaravelTableToMigrations::getInstance()->MakeSchema($table);
-                LaravelTableToMigrations::getInstance()->write($table);
+                LaravelTableToMigrations::getInstance()->CompileSchema();
+                LaravelTableToMigrations::getInstance()->Write();
 
                 $progressBar->advance();
             }
