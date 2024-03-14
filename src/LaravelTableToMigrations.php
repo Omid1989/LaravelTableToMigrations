@@ -18,10 +18,7 @@ class LaravelTableToMigrations
     {
         $this->infoTables = new InfoTables();
         $this->kernel = (new Kernel())->bootstrap();
-
-        echo 'new class create LaravelTableToMigrations' . PHP_EOL;
-
-    }
+      }
 
     public function __call($name, $arguments)
     {

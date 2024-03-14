@@ -17,7 +17,7 @@ class InfoTables
 
     public function __construct()
     {
-        echo 'new class create' . PHP_EOL;
+
     }
 
     public function setDatabase($database)

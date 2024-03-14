@@ -4,6 +4,7 @@
 namespace LaravelTableToMigrations;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class LaravelTableToMigrationsCommand extends Command
 {
@@ -13,7 +14,7 @@ class LaravelTableToMigrationsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:migrations {database} {--ignore=}   ';
+    protected $signature = 'make:migrations {database} {--ignore=}  ';
 
     /**
      * The console command description.
@@ -39,34 +40,24 @@ class LaravelTableToMigrationsCommand extends Command
      */
     public function handle()
     {
-
         $ignoreInput = str_replace(' ', '', $this->option('ignore'));
         $ignoreInput = explode(',', $ignoreInput);
         $database = $this->argument('database');
-
-         LaravelTableToMigrations::getInstance()->setDatabase($database);
-        LaravelTableToMigrations::getInstance()->setOptions($options);
+        LaravelTableToMigrations::getInstance()->setDatabase($database);
         $tables = LaravelTableToMigrations::getInstance()->getTables();
         $progressBar = $this->output->createProgressBar(
-                  LaravelTableToMigrations::getInstance()->getTablesCount());
-
-
+            LaravelTableToMigrations::getInstance()->getTablesCount());
         $progressBar->start();
         foreach ($tables as $table) {
-
             if (!in_array($table->table_name, $ignoreInput)) {
-
                 LaravelTableToMigrations::getInstance()->MakeSchema($table);
                 LaravelTableToMigrations::getInstance()->CompileSchema();
                 LaravelTableToMigrations::getInstance()->Write($table);
-
                 $progressBar->advance();
             }
         }
-
         $progressBar->finish();
-        $this->info('Proccess Successfully');
-
-
+        $this->newLine();
+        $this->info('Proccess Done');
     }
 }
