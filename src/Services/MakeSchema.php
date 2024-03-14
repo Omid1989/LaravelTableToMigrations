@@ -4,12 +4,14 @@
 namespace LaravelTableToMigrations\Services;
 
 
+use Illuminate\Support\Facades\DB;
 use LaravelTableToMigrations\Helper\InfoTables;
 
 class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
 {
     public static function render(InfoTables $infoTables, ...$opt)
     {
+
 
         $down = "Schema::dropIfExists('{$opt[0]->table_name}');";
         $up = "Schema::create('{$opt[0]->table_name}', function(Blueprint $" . "table) {\n";
@@ -33,11 +35,11 @@ class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
                 $type = $para > -1 ? substr($value->COLUMN_TYPE, 0, $para) : $value->COLUMN_TYPE;
                 $numbers = "";
                 $nullable = $value->IS_NULLABLE == "NO" ? "" : "->nullable()";
-                $default = empty($value->COLUMN_DEFAULT) ? "" : "->default(\"{$value->COLUMN_DEFAULT}\")";
+                $default = (empty($value->COLUMN_DEFAULT)|| $value->COLUMN_DEFAULT=="NULL")? "" : "->default(\"{$value->COLUMN_DEFAULT}\")";
                 $unsigned = strpos($value->COLUMN_TYPE, "unsigned") === false ? '' : '->unsigned()';
                 $unique = $value->COLUMN_KEY == 'UNI' ? "->unique()" : "";
                 $choices = '';
-                $comment = empty($value->COLUMN_COMMENT) ? "" : "->comment('{$value->COLUMN_COMMENT}')";
+                $comment = empty($value->COLUMN_COMMENT) ? "" : "->comment('".htmlspecialchars($value->COLUMN_COMMENT)."')";
                 switch ($type) {
                     case 'enum':
                         $method = 'enum';
@@ -47,6 +49,13 @@ class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
                     case 'int' :
                         $method = 'unsignedInteger';
                         break;
+                    case 'varbinary' :
+                        $method = 'binary';
+                        break;
+                    case 'numeric' :
+                    case 'smallint' :
+                        $method = 'smallint';
+                        break;
                     case 'bigint' :
                         $method = 'bigInteger';
                         break;
@@ -54,12 +63,14 @@ class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
                         $method = 'smallInteger';
                         break;
                     case 'char' :
+                    case 'nchar' :
                     case 'varchar' :
+                    case 'smalldatetime' :
                         $para = strpos($value->COLUMN_TYPE, '(');
                         $numbers = ", " . substr($value->COLUMN_TYPE, $para + 1, -1);
                         $method = 'string';
                         break;
-                    case 'float' :
+                    case 'double' :
                         $method = 'float';
                         break;
                     case 'decimal' :
@@ -92,8 +103,14 @@ class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
                         $method = 'mediumtext';
                         break;
                     case 'text' :
+                    case 'nvarchar' :
+                    case 'xml' :
+                    case 'ntext' :
                         $method = 'text';
                         break;
+                    default:
+                        $method = $type;
+
                 }
                 if ($value->COLUMN_KEY == 'PRI') {
                     $method = 'id';
