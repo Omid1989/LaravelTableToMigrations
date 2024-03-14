@@ -13,7 +13,7 @@ class LaravelTableToMigrationsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:migrations {database} {--ignore=} {--m} {--c}  ';
+    protected $signature = 'make:migrations {database} {--ignore=}  ';
 
     /**
      * The console command description.
@@ -44,13 +44,9 @@ class LaravelTableToMigrationsCommand extends Command
         $ignoreInput = explode(',', $ignoreInput);
         $database = $this->argument('database');
 
-        $options = [
-            'CreateModleFile' => $this->option('m') ? true : false,
-            'CreateControllerFile' => $this->option('c') ? true : false
-        ];
+
 
         LaravelTableToMigrations::getInstance()->setDatabase($database);
-        LaravelTableToMigrations::getInstance()->setOptions($options);
         $tables = LaravelTableToMigrations::getInstance()->getTables();
         $progressBar = $this->output->createProgressBar(
                   LaravelTableToMigrations::getInstance()->getTablesCount());
