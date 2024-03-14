@@ -13,7 +13,7 @@ class CompileSchemaProvider implements \LaravelTableToMigrations\Contracts\Servi
     public function register(Kernel $kernel)
     {
         $kernel->bind('CompileSchema',function(...$opt){
-            return CompileSchema::run($this->infoTables,...$opt);
+            return CompileSchema::render($this->infoTables,...$opt);
         });
     }
 }

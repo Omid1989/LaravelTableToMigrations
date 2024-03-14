@@ -13,7 +13,7 @@ class WriteServiceProvider implements \LaravelTableToMigrations\Contracts\Servic
     public function register(Kernel $kernel)
     {
         $kernel->bind('Write',function(...$opt){
-            return WriteService::run($this->infoTables,...$opt);
+            return WriteService::render($this->infoTables,...$opt);
         });
     }
 }

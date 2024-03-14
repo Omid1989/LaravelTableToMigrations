@@ -63,7 +63,7 @@ class LaravelTableToMigrationsCommand extends Command
 
                 LaravelTableToMigrations::getInstance()->MakeSchema($table);
                 LaravelTableToMigrations::getInstance()->CompileSchema();
-                LaravelTableToMigrations::getInstance()->Write();
+                LaravelTableToMigrations::getInstance()->Write($table);
 
                 $progressBar->advance();
             }

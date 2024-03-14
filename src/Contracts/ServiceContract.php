@@ -8,5 +8,5 @@ use LaravelTableToMigrations\Helper\InfoTables;
 
 interface ServiceContract
 {
-    public static function run(InfoTables $infoTables, ...$opt);
+    public static function render(InfoTables $infoTables, ...$opt);
 }

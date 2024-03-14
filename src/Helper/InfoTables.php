@@ -11,6 +11,7 @@ class InfoTables
 {
     private static $database = "";
     public static $schema = array();
+    public static $stub = "";
     private static $Options = array();
     private static $count = 0;
 

@@ -8,10 +8,10 @@ use LaravelTableToMigrations\Helper\InfoTables;
 
 class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
 {
-    public static function run(InfoTables $infoTables, ...$opt)
+    public static function render(InfoTables $infoTables, ...$opt)
     {
 
-        $down = "Schema::drop('{$opt[0]->table_name}');";
+        $down = "Schema::dropIfExists('{$opt[0]->table_name}');";
         $up = "Schema::create('{$opt[0]->table_name}', function(Blueprint $" . "table) {\n";
         $tableDescribes = $infoTables->getTableDescribes($opt[0]->table_name);
         $timestamps = '';
@@ -37,7 +37,7 @@ class MakeSchema implements \LaravelTableToMigrations\Contracts\ServiceContract
                 $unsigned = strpos($value->COLUMN_TYPE, "unsigned") === false ? '' : '->unsigned()';
                 $unique = $value->COLUMN_KEY == 'UNI' ? "->unique()" : "";
                 $choices = '';
-                $comment = empty($value->COLUMN_COMMENT) ? "" : "->comment(\"{$value->COLUMN_COMMENT}\")";
+                $comment = empty($value->COLUMN_COMMENT) ? "" : "->comment('{$value->COLUMN_COMMENT}')";
                 switch ($type) {
                     case 'enum':
                         $method = 'enum';

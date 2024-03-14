@@ -13,7 +13,7 @@ class MakeSchemaProvider implements \LaravelTableToMigrations\Contracts\ServiceP
     public function register(Kernel $kernel)
     {
         $kernel->bind('MakeSchema',function(...$opt){
-            return MakeSchema::run($this->infoTables,...$opt);
+            return MakeSchema::render($this->infoTables,...$opt);
         });
     }
 }
