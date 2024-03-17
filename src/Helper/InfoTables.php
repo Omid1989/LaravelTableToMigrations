@@ -46,7 +46,7 @@ class InfoTables
     public function getTableDescribes($table)
     {
         return DB::select("select
-                               COLUMNS.COLUMN_NAME
+                               distinct COLUMNS.COLUMN_NAME
                              , COLUMNS.ORDINAL_POSITION
                              , COLUMNS.COLUMN_DEFAULT
                              , COLUMNS.IS_NULLABLE
